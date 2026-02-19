@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JP TikTok Hub - Myanmar</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{background:#000;color:#fff;height:100vh;display:flex;flex-direction:column;}
+
+/* Login Section */
+#loginSection{
+  height:100vh;display:flex;justify-content:center;align-items:center;
+  background:#000 url('https://upload.wikimedia.org/wikipedia/commons/0/09/TikTok_logo_3D.png') no-repeat center center;
+  background-size:250px 250px;
+}
+#loginBox{
+  background:rgba(0,0,0,0.85);padding:30px;border-radius:15px;width:320px;text-align:center;
+  box-shadow:0 0 30px rgba(255,255,255,0.2);
+}
+#loginBox h1{
+  font-size:24px;margin-bottom:20px;font-weight:bold;
+  background: linear-gradient(45deg,#fe2c55,#25f4ee,#fff700,#ff00ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+#loginBox input{
+  width:100%;padding:10px;margin:8px 0;border-radius:8px;border:none;background:#222;color:#fff;
+}
+#loginBox button{
+  width:100%;padding:10px;margin-top:15px;border:none;border-radius:8px;
+  background: linear-gradient(45deg,#fe2c55,#25f4ee,#fff700,#ff00ff);
+  color:#000;font-weight:bold;cursor:pointer;transition:0.3s;
+}
+#loginBox button:hover{opacity:0.85;}
+
+/* Dashboard */
+#dashboardSection{display:none;flex:1;flex-direction:column;min-height:100vh;padding-bottom:60px;}
+header{text-align:center;padding:15px;font-size:24px;font-weight:bold;background: linear-gradient(45deg,#fe2c55,#25f4ee,#fff700,#ff00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.section{flex:1;padding:10px 20px;display:none;overflow-y:auto;}
+.activeSection{display:block;}
+
+/* Post Cards */
+.postCard{
+  background:linear-gradient(135deg,#1e1e1e,#111);border-radius:12px;
+  padding:12px;margin-bottom:12px;font-size:14px;color:#fff;box-shadow:0 0 10px rgba(255,255,255,0.1);
+  word-break:break-word;
+}
+.postCard strong{
+  background: linear-gradient(45deg,#fe2c55,#25f4ee,#fff700,#ff00ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.postCard p, .postCard small{color:#ccc;margin:5px 0;}
+.postCard img{width:100%;border-radius:8px;margin:5px 0;}
+.postCard button{
+  margin-right:5px;padding:5px 10px;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:bold;
+}
+.postCard button.like{background:linear-gradient(45deg,#25f4ee,#fff700);color:#000;}
+.postCard button.complete{background:linear-gradient(45deg,#fe2c55,#ff0055);color:#000;}
+.postCard button.comment{background:linear-gradient(45deg,#ffffff,#25f4ee);color:#000;}
+
+/* Add Post Form */
+.addPostForm{margin-bottom:20px;}
+.addPostForm input, .addPostForm select{
+  width:100%;padding:8px;margin:5px 0;border-radius:6px;border:none;background:#222;color:#fff;
+}
+.addPostForm button{
+  padding:8px 12px;margin-top:5px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;
+  background: linear-gradient(45deg,#fe2c55,#25f4ee);color:#000;transition:0.2s;
+}
+.addPostForm button:hover{opacity:0.85;}
+
+/* Bottom Nav */
+.bottomNav{display:flex;justify-content:space-around;align-items:center;padding:10px 0;background:#111;border-top:1px solid #222;position:fixed;bottom:0;width:100%;z-index:1000;}
+.bottomNav button{
+  width:50px;height:50px;border-radius:50%;border:none;background:linear-gradient(45deg,#fe2c55,#25f4ee);color:#000;
+  font-weight:bold;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:16px;transition:0.2s;
+}
+.bottomNav button:hover{transform:scale(1.1);filter:brightness(1.2);}
+
+/* Modal */
+.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background: rgba(0,0,0,0.7);}
+.modalContent{background:linear-gradient(135deg,#111,#1e1e1e);margin:5% auto;padding:20px;border-radius:10px;width:90%;max-width:500px;color:#fff;position:relative;text-align:center;border:1px solid #222;box-shadow:0 0 20px rgba(255,255,255,0.2);}
+.closeBtn{position:absolute;top:10px;right:15px;font-size:24px;font-weight:bold;color:#fff;cursor:pointer;}
+
+/* Chat */
+#chatBox{flex:1;overflow-y:auto;background:linear-gradient(135deg,#222,#111);padding:10px;border-radius:8px;margin-bottom:10px;color:#fff;display:flex;flex-direction:column;}
+#chatInput{flex:1;padding:6px;border-radius:6px;border:none;background:#333;color:#fff;}
+#chatUser{width:120px;padding:6px;border-radius:6px;border:none;background:#333;color:#fff;margin-right:5px;}
+#chatInput,#chatUser{margin-right:5px;}
+#chatModal button{background: linear-gradient(45deg,#fe2c55,#25f4ee);color:#000;padding:6px 10px;border-radius:6px;border:none;cursor:pointer;}
+#chatModal button:hover{opacity:0.85;}
+
+/* Responsive */
+@media (max-width:600px){
+  #loginBox{width:90%;}
+  .addPostForm input, .addPostForm select{font-size:14px;}
+  .postCard{font-size:13px;padding:10px;}
+  .bottomNav button{width:40px;height:40px;font-size:14px;}
+  #chatUser{width:80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Login Section -->
+<div id="loginSection">
+  <div id="loginBox">
+    <h1>JP TikTok Hub</h1>
+    <input type="text" id="username" placeholder="အသုံးပြုသူအမည်">
+    <input type="password" id="password" placeholder="စကားဝှက်">
+    <button onclick="login()">ဝင်မည်</button>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboardSection">
+<header>JP TikTok Hub</header>
+
+<div id="home" class="section activeSection">
+  <h2>Post များ</h2>
+  <div id="homePosts"></div>
+</div>
+
+<div id="posts" class="section">
+  <h2>Post အသစ်ထည့်ရန်</h2>
+  <div class="addPostForm">
+    <input type="text" id="postTitle" placeholder="Post အမည်">
+    <input type="text" id="postLink" placeholder="TIKTOK Link / Username">
+    <input type="text" id="postPrice" placeholder="ဈေးနှုန်း">
+    <input type="text" id="postPhone" placeholder="ဖုန်းနံပါတ်">
+    <select id="postPay">
+      <option value="KPay">KPay</option>
+      <option value="Wave">Wave</option>
+    </select>
+    <select id="postType">
+      <option value="Sell">အရောင်း</option>
+      <option value="Buy">အဝယ်</option>
+    </select>
+    <input type="file" id="postImage">
+    <button onclick="addPost()">Add Post</button>
+  </div>
+</div>
+
+<div class="bottomNav">
+  <button onclick="showSection('home')">🏠</button>
+  <button onclick="showSection('posts')">📄</button>
+  <button onclick="openModal('adminModal')">⚙️</button>
+  <button onclick="openModal('chatModal')">💬</button>
+</div>
+</div>
+
+<!-- Admin Modal -->
+<div id="adminModal" class="modal">
+  <div class="modalContent">
+    <span class="closeBtn" onclick="closeModal('adminModal')">×</span>
+    <h3>Admin Panel</h3>
+    
+    <!-- Side-by-side buttons -->
+    <div style="display:flex;justify-content:space-around;margin-top:15px;">
+      <a href="https://t.me/mgtunnaing" target="_blank" style="flex:1;margin-right:5px;display:flex;align-items:center;justify-content:center;padding:10px;border-radius:8px;background:linear-gradient(45deg,#25f4ee,#ff00ff);color:#000;text-decoration:none;font-weight:bold;transition:0.3s;">
+        <span style="margin-right:8px;font-size:18px;">✈️</span> Contact Admin
+      </a>
+      <a href="tel:09682480788" style="flex:1;margin-left:5px;display:flex;align-items:center;justify-content:center;padding:10px;border-radius:8px;background:linear-gradient(45deg,#fe2c55,#ffea00);color:#000;text-decoration:none;font-weight:bold;transition:0.3s;">
+        <span style="margin-right:8px;font-size:18px;">📞</span> 09682480788
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Modal -->
+<div id="chatModal" class="modal">
+  <div class="modalContent" style="display:flex;flex-direction:column;height:90vh;">
+    <span class="closeBtn" onclick="closeModal('chatModal')">×</span>
+    <h3 style="text-align:center;">Chat</h3>
+    <div id="chatBox"></div>
+    <div style="display:flex;align-items:center;margin-top:5px;">
+      <input type="text" id="chatUser" placeholder="Username">
+      <input type="text" id="chatInput" placeholder="စာရေးရန်...">
+      <button id="imageUploadBtn">📎</button>
+      <button onclick="sendMessage()">Send</button>
+      <input type="file" id="chatImageInput" style="display:none;">
+    </div>
+  </div>
+</div>
+
+<script>
+// Section
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('activeSection'));document.getElementById(id).classList.add('activeSection');}
+
+// Login
+function login(){
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value.trim();
+  if(u==='TIKTOK' && p==='1234'){
+    document.getElementById('loginSection').style.display='none';
+    document.getElementById('dashboardSection').style.display='flex';
+    renderHomePosts();
+  } else alert('Username သို့မဟုတ် Password မှားနေပါသည် ❌');
+}
+
+// Posts
+let posts=JSON.parse(localStorage.getItem('posts')||'[]');
+let likes={}; let comments={};
+function renderHomePosts(){
+  const container=document.getElementById('homePosts'); if(!container) return; container.innerHTML='';
+  posts.forEach((p,index)=>{
+    const div=document.createElement('div'); div.className='postCard';
+    let imgHTML = p.image ? `<img src="${p.image}">` : '';
+    const likeCount=likes[index]?likes[index].length:0;
+    let commentsHTML='';
+    if(comments[index]){
+      commentsHTML='<div style="background:#222;padding:5px;border-radius:6px;margin-top:5px;">';
+      comments[index].forEach(c=>{commentsHTML+=`<small style="color:#ccc;">${c.user}: ${c.text} [${c.time}]</small><br>`;});
+      commentsHTML+='</div>';
+    }
+    div.innerHTML=`<strong>[${p.type}] ${p.title}</strong>
+      <p>Link: <a href="${p.link}" target="_blank" style="color:#25f4ee">${p.link}</a></p>
+      <p>ဈေးနှုန်း: ${p.price} | ဖုန်း: ${p.phone} | ငွေပေးချေမှု: ${p.pay}</p>
+      ${imgHTML}<p>Like: ${likeCount}</p>
+      <button class="like" onclick="likePost(${index})">Like ❤️</button>
+      <button class="comment" onclick="commentPost(${index})">Comment 💬</button>
+      <button class="complete" onclick="completePost(${index})">Complete ✅</button>
+      ${commentsHTML}`;
+    container.appendChild(div);
+  });
+}
+
+function addPost(){
+  const title=document.getElementById('postTitle').value.trim();
+  const link=document.getElementById('postLink').value.trim();
+  const price=document.getElementById('postPrice').value.trim();
+  const phone=document.getElementById('postPhone').value.trim();
+  const pay=document.getElementById('postPay').value;
+  const type=document.getElementById('postType').value;
+  const imageFile=document.getElementById('postImage').files[0];
+  if(!title || !link || !price || !phone){alert('အားလုံးဖြည့်ပါ ❌'); return;}
+  if(imageFile){const reader=new FileReader(); reader.onload=function(e){posts.push({title,link,price,phone,pay,type,image:e.target.result});localStorage.setItem('posts',JSON.stringify(posts)); clearPostForm(); renderHomePosts();}; reader.readAsDataURL(imageFile);}
+  else{posts.push({title,link,price,phone,pay,type,image:null});localStorage.setItem('posts',JSON.stringify(posts)); clearPostForm(); renderHomePosts();}
+}
+function clearPostForm(){document.getElementById('postTitle').value='';document.getElementById('postLink').value='';document.getElementById('postPrice').value='';document.getElementById('postPhone').value='';document.getElementById('postImage').value='';}
+
+// Interactions
+function likePost(index){const user=prompt('Username:')||'Guest';if(!likes[index]) likes[index]=[]; if(!likes[index].includes(user)) likes[index].push(user); renderHomePosts();}
+function commentPost(index){const user=prompt('Username:')||'Guest';const text=prompt('Comment:');if(text){if(!comments[index]) comments[index]=[];comments[index].push({user,text,time:new Date().toLocaleTimeString()});}renderHomePosts();}
+function completePost(index){alert(`"${posts[index].title}" ကို Admin သို့ Complete အနေဖြင့် ပြောပေးလိုက်ပါ ✅`); posts.splice(index,1); renderHomePosts();}
+
+// Modal
+function openModal(id){document.getElementById(id).style.display='block';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+window.onclick=function(e){if(e.target.classList.contains('modal')) e.target.style.display='none';}
+
+// Chat
+let chatMessages=[]; let chatImageFile=null;
+document.getElementById('imageUploadBtn').onclick=function(){document.getElementById('chatImageInput').click();}
+document.getElementById('chatImageInput').onchange=function(e){const file=e.target.files[0]; if(file){const reader=new FileReader();reader.onload=function(ev){chatImageFile=ev.target.result; sendMessage();}; reader.readAsDataURL(file);}}
+function sendMessage(){const username=document.getElementById('chatUser').value.trim()||'Guest'; const text=document.getElementById('chatInput').value.trim();
+if(!text && !chatImageFile) return; chatMessages.push({user:username,text:text,image:chatImageFile,date:new Date().toLocaleTimeString()}); chatImageFile=null; document.getElementById('chatInput').value=''; renderChat();}
+function renderChat(){const box=document.getElementById('chatBox'); box.innerHTML=''; chatMessages.forEach(m=>{const div=document.createElement('div'); const currentUser=document.getElementById('chatUser').value.trim()||'Guest';
+div.style.alignSelf = m.user === currentUser ? 'flex-start' : 'flex-end';
+div.style.background = m.user === currentUser ? '#222' : 'linear-gradient(45deg,#25f4ee,#fff700)';
+div.style.color = m.user === currentUser ? '#fff' : '#000'; div.style.borderRadius='8px'; div.style.padding='6px 10px'; div.style.margin='4px 0'; div.style.maxWidth='80%'; div.style.wordBreak='break-word';
+div.innerHTML=`<strong>${m.user}</strong>: ${m.text || ''} ${m.image?`<br><img src="${m.image}" style="max-width:100%;border-radius:6px;margin-top:5px;">`:''} <small style="color:#999">[${m.date}]</small>`; box.appendChild(div); box.scrollTop = box.scrollHeight;});}
+</script>
+</body>
+</html>
